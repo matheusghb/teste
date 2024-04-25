@@ -1,7 +1,7 @@
 from kivy.app import App
-from kivy.uix.button import Button
+from kivy.uix.label import Label
 class MyApp(App):
     def build(self):
-        return Button(text='Hello World! Eu estou programando com Kivy')
+        return Label(text='oie', font_size=100, font_type="Arial")
 if __name__ == '__main__':
     MyApp().run()
