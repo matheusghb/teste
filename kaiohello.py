@@ -1,51 +1,57 @@
-from kivy.app import App  
-from kivy.uix.label import Label 
-from kivy.utils import get_color_from_hex 
-from kivy.uix.button import Button 
-from kivy.uix.boxlayout import BoxLayout 
-from kivy.uix.image import Image
-from kivy.uix.slider import Slider
-from kivy.uix.floatlayout import FloatLayout
+from kivy.app import App
+from kivy.uix.screenmanager import ScreenManager, Screen
+from kivy.uix.button import Button
+from kivy.uix.label import Label
+from kivy.uix.image import AsyncImage
+from kivy.uix.textinput import TextInput
+from kivy.core.window import Window
+class log(Screen):
+    def __init__(self, **kwargs):
+        super(log, self).__init__(**kwargs)
+        
+        self.orientation = 'vertical'
+        self.padding = [50, 20, 50, 20]
+        self.spacing = [10]
 
-def btnpress(instance):
-    print('oioies')
-class app(App):
+        self.textol = Label(text="login")
+        self.add_widget(self.textol)
+
+        self.imagem = AsyncImage(source = 'https://cdn-icons-png.flaticon.com/512/1144/1144760.png' )
+        self.nome = TextInput(hint_text = 'seu nome')
+        self.butreg= Button(text="registrar")
+        self.butreg.bind(on_press=self.open_second_window)
+        self.add_widget(self.textol)
+        self.add_widget(self.imagem)
+        self.add_widget(self.)
+        self.add_widget(self.butreg)
+        Window.clearcolor = [1,1,1,1]
+
+    def open_second_window(self, instance):
+        self.manager.current = 'second'
+
+
+class SecondWindow(Screen):
+    def __init__(self, **kwargs):
+        super(SecondWindow, self).__init__(**kwargs)
+
+        self.textoc = Label(text="registrar")
+        self.add_widget(self.textoc)
+
+        self.back_button = Button(text="Go Back")
+        self.back_button.bind(on_press=self.go_back)
+        self.add_widget(self.back_button)
+
+    def voltar(self, instance):
+        self.manager.current = 'main'
+
+
+class MyApp(App):
     def build(self):
-        
-        layout = FloatLayout()  
-        self.oi = Label(
-            text="oie",
-            size=(100,50),
-            size_hint = (None, None),
-            font_size=100,
-            font_name='arial',
-            pos_hint={'x': 0.6, 'y': 0.8},
-            color= get_color_from_hex('FF0076'),
-            italic= 'true')
-        self.oi2 = ui = Button(
-            size=(50,30),
-            size_hint = (None, None),
-            text="olis",
-            font_size=50,
-            font_name='arial',
-            color = get_color_from_hex('ffffff'),
-            background_color = get_color_from_hex('639E42'),
-            pos_hint = {'center_x': 0.9, 'center_y': 0.5})
-           
-        self.oi3 = Image( 
-            source = "/Users/aluno.sesipaulista/Downloads/oi.jpg",
-            size_hint = (None, None),
-            size=(50,30),
-            )
+        sm = ScreenManager()
+        sm.add_widget(log(name='main'))
+        sm.add_widget(SecondWindow(name='second'))
+        return sm
 
-        slider = Slider( size= (100, 50), size_hint = (None, None), min=0, max=100, value= 50, step=1,
-                        pos_hint={'x':0.1, 'right': 0.5}) 
-        
-        layout.add_widget(self.oi)
-        layout.add_widget(self.oi2)
-        layout.add_widget(self.oi3)
-        layout.add_widget(slider)
-        return layout       
 
-if __name__ == '__main__':
-    app().run()
+if __name__ == "__main__":
+    MyApp().run()
